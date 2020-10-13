@@ -37,6 +37,22 @@ function loadPrompts()
                     value: "VIEW_EMPLOYEES"
                 },
                 {
+                    name: "View All Employees By Department",
+                    value: "VIEW_EMPLOYEES_DEPARTMENT"
+                },
+                {
+                    name: "View All Employees By Manager",
+                    value: "VIEW_EMPLOYEES_MANAGER"
+                },
+                {
+                    name: "Add Employee",
+                    value: "ADD_EMPLOYEE"
+                },
+                {
+                    name: "Add Employee Role",
+                    value: "ADD_EMPLOYEE_ROLE"
+                },
+                {
                     name: "Exit",
                     value: "EXIT"
                 }
@@ -49,6 +65,18 @@ function loadPrompts()
         {
             case "VIEW_EMPLOYEES":
                 return DB.viewAllEmployees();
+
+            case "VIEW_EMPLOYEES_DEPARTMENT":
+                return DB.viewEmployeesByDepartment();
+
+            case "VIEW_EMPLOYEES_MANAGER":
+                return DB.viewEmployeesByManager();
+
+            case "ADD_EMPLOYEE":
+                return DB.addEmployee();
+
+            case "ADD_EMPLOYEE_ROLE":
+                return DB.addEmployeeRole();
 
             case "EXIT":
                 return connection.end();

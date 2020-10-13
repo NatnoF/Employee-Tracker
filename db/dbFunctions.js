@@ -18,6 +18,26 @@ class DB
 
         index.loadPrompts();
     }
+
+    viewEmployeesByDepartment()
+    {
+
+    }
+
+    viewEmployeesByManager()
+    {
+
+    }
+
+    addEmployee()
+    {
+
+    }
+
+    addEmployeeRole()
+    {
+        
+    }
 }
 
 module.exports = new DB();
