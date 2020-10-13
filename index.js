@@ -45,12 +45,20 @@ function loadPrompts()
                     value: "VIEW_EMPLOYEES_MANAGER"
                 },
                 {
+                    name: "View All Roles",
+                    value: "VIEW_ROLES"
+                },
+                {
                     name: "Add Employee",
                     value: "ADD_EMPLOYEE"
                 },
                 {
                     name: "Add Employee Role",
                     value: "ADD_EMPLOYEE_ROLE"
+                },
+                {
+                    name: "Update Employee Role",
+                    value: "UPDATE_ROLE"
                 },
                 {
                     name: "Exit",
@@ -71,6 +79,12 @@ function loadPrompts()
 
             case "VIEW_EMPLOYEES_MANAGER":
                 return DB.viewEmployeesByManager();
+
+            case "VIEW_ROLES":
+                return DB.viewAllRoles();
+
+            case "UPDATE_ROLE":
+                return DB.updateEmployeeRole();
 
             case "ADD_EMPLOYEE":
                 return DB.addEmployee();
