@@ -158,12 +158,53 @@ class DB
                 });
             console.log(`Added ${answer.first_name} ${answer.last_name} to the database!`);
             index.loadPrompts();
-        })
+        });
     }
 
     addEmployeeRole()
     {
+        const departments = [];
+        connection.query("SELECT * FROM department", function (err, results)
+        {
+            for (let i = 0; i < results.length; i++)
+            {
+                departments.push({ name: results[i].name, value: results[i].id });
+            }
+        });
 
+        inquirer.prompt(
+            [
+                {
+                    type: "input",
+                    name: "title",
+                    message: "What is role's title?"
+                },
+                {
+                    type: "input",
+                    name: "salary",
+                    message: "What is the role's salary?"
+                },
+                {
+                    type: "list",
+                    name: "departmentChoice",
+                    message: "What is the role's department?",
+                    choices: departments
+                }
+            ]
+        )
+        .then(function(answer)
+        {
+            let query = "INSERT INTO role SET ?";
+            connection.query(query,
+                {
+                    title: answer.title,
+                    salary: answer.salary,
+                    department_id: answer.departmentChoice
+                });
+
+            console.log(`Added the role of ${answer.title} to the database!`);
+            index.loadPrompts();
+        });
     }
 }
 
