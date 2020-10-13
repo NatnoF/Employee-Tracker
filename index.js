@@ -35,6 +35,10 @@ function loadPrompts()
                 {
                     name: "View All Employees",
                     value: "VIEW_EMPLOYEES"
+                },
+                {
+                    name: "Exit",
+                    value: "EXIT"
                 }
             ]
         }
@@ -44,7 +48,12 @@ function loadPrompts()
         switch(answer.choice)
         {
             case "VIEW_EMPLOYEES":
-                return DB.viewEmployees();
+                return DB.viewAllEmployees();
+
+            case "EXIT":
+                return connection.end();
         }
     });
 }
+
+module.exports.loadPrompts = loadPrompts;

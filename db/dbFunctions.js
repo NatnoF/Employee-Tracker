@@ -1,8 +1,11 @@
+const index = require("../index");
+
 class DB
 {
     viewAllEmployees()
     {
-        console.log("import works");
+        console.log("import works\n");
+        index.loadPrompts();
     }
 }
 
