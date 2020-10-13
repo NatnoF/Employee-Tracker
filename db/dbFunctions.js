@@ -32,8 +32,8 @@ class DB
                     message: "What department do you want to search by?",
                     choices: function()
                     {
-                        var choiceArray = [];
-                        for (var i = 0; i < results.length; i++)
+                        let choiceArray = [];
+                        for (let i = 0; i < results.length; i++)
                         {
                             choiceArray.push(results[i].name);
                         }
@@ -57,7 +57,7 @@ class DB
 
     viewEmployeesByManager()
     {
-        connection.query('SELECT e.id, CONCAT(m.first_name, " ", m.last_name) AS Manager FROM employee e LEFT JOIN employee m ON e.Manager_id = m.id', function (err, results)
+        connection.query('SELECT m.id, CONCAT(m.first_name, " ", m.last_name) AS Manager FROM employee e LEFT JOIN employee m ON e.Manager_id = m.id', function (err, results)
         {
             if (err) throw err;
 
@@ -69,8 +69,8 @@ class DB
                     message: "Which manager do you want to search by?",
                     choices: function()
                     {
-                        var choiceArray = [];
-                        for (var i = 0; i < results.length; i++)
+                        let choiceArray = [];
+                        for (let i = 0; i < results.length; i++)
                         {
                             if (results[i].Manager != null)
                             {
@@ -83,7 +83,7 @@ class DB
             )
             .then(function(answer)
             {
-                var query = `SELECT e.id, e.first_name AS First_Name, e.last_name AS Last_Name, CONCAT(m.first_name, " ", m.last_name) AS Manager FROM employee e LEFT JOIN employee m ON e.Manager_id = m.id WHERE e.id = ${answer.choice};`
+                var query = `SELECT e.id, e.first_name AS First_Name, e.last_name AS Last_Name, CONCAT(m.first_name, " ", m.last_name) AS Manager FROM employee e LEFT JOIN employee m ON e.Manager_id = m.id WHERE m.id = ${answer.choice};`
                 connection.query(query, function(err, res)
                 {
                     if (err) throw err;
@@ -97,7 +97,68 @@ class DB
 
     addEmployee()
     {
+        // Building the array of role choices ahead of time
+        const roles = [];
+        connection.query("SELECT * FROM role", function (err, results)
+        {
+            for (let i = 0; i < results.length; i++)
+            {
+                roles.push({ name: results[i].title, value: results[i].id });
+            }
+        });
 
+        // Building the array of manager choices ahead of time
+        const managers = [];
+        connection.query('SELECT m.id, CONCAT(m.first_name, " ", m.last_name) AS Manager FROM employee e LEFT JOIN employee m ON e.Manager_id = m.id', function (err, results)
+        {
+            for (let i = 0; i < results.length; i++)
+            {
+                if (results[i].Manager != null)
+                {
+                    managers.push({ name: results[i].Manager, value: results[i].id });
+                }
+            }
+        });
+
+        inquirer.prompt(
+            [
+                {
+                    type: "input",
+                    name: "first_name",
+                    message: "What is the employee's first name?"
+                },
+                {
+                    type: "input",
+                    name: "last_name",
+                    message: "What is the employee's last name?"
+                },
+                {
+                    type: "list",
+                    name: "roleChoice",
+                    message: "What is the employee's role?",
+                    choices: roles
+                },
+                {
+                    type: "list",
+                    name: "managerChoice",
+                    message: "Which manager do you want to search by?",
+                    choices: managers
+                }
+            ]
+        )
+        .then(function(answer)
+        {
+            let query = "INSERT INTO employee SET ?";
+            connection.query(query,
+                {
+                    first_name: answer.first_name,
+                    last_name: answer.last_name,
+                    role_id: answer.roleChoice,
+                    manager_id: answer.managerChoice
+                });
+            console.log(`Added ${answer.first_name} ${answer.last_name} to the database!`);
+            index.loadPrompts();
+        })
     }
 
     addEmployeeRole()
