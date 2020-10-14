@@ -12,6 +12,8 @@ class DB
 
         connection.query(query, function(err, res)
         {
+            if (err) throw err;
+            
             console.table(res);
 
             index.loadPrompts();
@@ -95,12 +97,25 @@ class DB
         });
     }
 
+    viewAllRoles()
+    {
+        connection.query('SELECT r.id, r.title AS Title, r.salary AS Salary, name AS Department FROM role r LEFT JOIN department d ON department_id = d.id', function (err, results)
+        {
+            if (err) throw err;
+
+            console.table(results);
+            index.loadPrompts();
+        });
+    }
+
     addEmployee()
     {
         // Building the array of role choices ahead of time
         const roles = [];
         connection.query("SELECT * FROM role", function (err, results)
         {
+            if (err) throw err;
+
             for (let i = 0; i < results.length; i++)
             {
                 roles.push({ name: results[i].title, value: results[i].id });
@@ -111,6 +126,8 @@ class DB
         const managers = [];
         connection.query('SELECT m.id, CONCAT(m.first_name, " ", m.last_name) AS Manager FROM employee e LEFT JOIN employee m ON e.Manager_id = m.id', function (err, results)
         {
+            if (err) throw err;
+
             for (let i = 0; i < results.length; i++)
             {
                 if (results[i].Manager != null)
@@ -166,6 +183,8 @@ class DB
         const departments = [];
         connection.query("SELECT * FROM department", function (err, results)
         {
+            if (err) throw err;
+
             for (let i = 0; i < results.length; i++)
             {
                 departments.push({ name: results[i].name, value: results[i].id });
