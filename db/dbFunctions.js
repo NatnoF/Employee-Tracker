@@ -198,7 +198,7 @@ class DB
                 {
                     type: "input",
                     name: "title",
-                    message: "What is role's title?"
+                    message: "What is the role's title?"
                 },
                 {
                     type: "input",
@@ -224,6 +224,25 @@ class DB
                 });
 
             console.log(`Added the role of ${answer.title} to the database!`);
+            index.loadPrompts();
+        });
+    }
+
+    addDepartment()
+    {
+        inquirer.prompt(
+            {
+                type: "input",
+                name: "name",
+                message: "What is the department's name?"
+            }
+        )
+        .then(function(answer)
+        {
+            let query = "INSERT INTO department SET ?";
+            connection.query(query, {name: answer.name});
+
+            console.log(`Added the department of ${answer.name} to the database!`);
             index.loadPrompts();
         });
     }

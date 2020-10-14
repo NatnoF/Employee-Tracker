@@ -97,7 +97,7 @@ function loadPrompts()
                 return DB.addEmployeeRole();
 
             case "ADD_DEPARTMENT":
-                return DB.addEmployeeRole();
+                return DB.addDepartment();
 
             case "EXIT":
                 return connection.end();
