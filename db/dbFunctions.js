@@ -1,6 +1,7 @@
 const index = require("../index");
 const connection = require("./connection");
 const inquirer = require("inquirer");
+const { end } = require("./connection");
 
 class DB
 {
@@ -13,7 +14,7 @@ class DB
         connection.query(query, function(err, res)
         {
             if (err) throw err;
-            
+
             console.table(res);
 
             index.loadPrompts();
@@ -180,6 +181,7 @@ class DB
 
     addEmployeeRole()
     {
+        // Building Department array ahead of time
         const departments = [];
         connection.query("SELECT * FROM department", function (err, results)
         {
@@ -222,6 +224,63 @@ class DB
                 });
 
             console.log(`Added the role of ${answer.title} to the database!`);
+            index.loadPrompts();
+        });
+    }
+
+    updateEmployeeRole()
+    {
+        // Building roles array ahead of time
+        const roles = [];
+        connection.query("SELECT * FROM role", function (err, results)
+        {
+            if (err) throw err;
+
+            for (let i = 0; i < results.length; i++)
+            {
+                roles.push({name: results[i].title, value: results[i].id });
+            }
+        });
+
+        // Building Employees array ahead of time
+        const employees = [];
+        connection.query("SELECT * FROM employee", function(err,results)
+        {
+            if (err) throw err;
+
+            for (let i = 0; i < results.length; i++)
+            {
+                employees.push({ name: results[i].first_name + " " + results[i].last_name, value: results[i].id });
+            }
+        });
+
+        inquirer.prompt(
+            [
+                {
+                    type: "input",
+                    name: "test",
+                    message: "Hit enter to continue."
+                },
+                {
+                    type: "list",
+                    name: "employeeChoice",
+                    message: "Which employee do you want to update?",
+                    choices: employees
+                },
+                {
+                    type: "list",
+                    name: "roleChoice",
+                    message: "Which role do you want to give them?",
+                    choices: roles
+                }
+            ]
+        )
+        .then(function(answer)
+        {
+            let query = "UPDATE employee SET role_id = ? WHERE id = ?";
+            connection.query(query, [answer.roleChoice, answer.employeeChoice]);
+
+            console.log(`The employee has been updated!`);
             index.loadPrompts();
         });
     }
