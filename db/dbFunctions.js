@@ -81,7 +81,6 @@ class DB
                                 valArr.push(results[i].id);
                             }
                         }
-                        console.log(choiceArray);
                         return choiceArray;
                     }
                 }
