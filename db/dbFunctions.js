@@ -1,7 +1,6 @@
 const index = require("../index");
 const connection = require("./connection");
 const inquirer = require("inquirer");
-const { end } = require("./connection");
 
 class DB
 {
