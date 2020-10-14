@@ -57,6 +57,10 @@ function loadPrompts()
                     value: "ADD_EMPLOYEE_ROLE"
                 },
                 {
+                    name: "Add Department",
+                    value: "ADD_DEPARTMENT"
+                },
+                {
                     name: "Update Employee Role",
                     value: "UPDATE_ROLE"
                 },
@@ -90,6 +94,9 @@ function loadPrompts()
                 return DB.addEmployee();
 
             case "ADD_EMPLOYEE_ROLE":
+                return DB.addEmployeeRole();
+
+            case "ADD_DEPARTMENT":
                 return DB.addEmployeeRole();
 
             case "EXIT":
