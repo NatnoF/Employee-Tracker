@@ -72,13 +72,16 @@ class DB
                     choices: function()
                     {
                         let choiceArray = [];
+                        let valArr = []
                         for (let i = 0; i < results.length; i++)
                         {
-                            if (results[i].Manager != null)
+                            if (results[i].Manager != null && !(valArr.includes(results[i].id)))
                             {
                                 choiceArray.push({ name: results[i].Manager, value: results[i].id });
+                                valArr.push(results[i].id);
                             }
                         }
+                        console.log(choiceArray);
                         return choiceArray;
                     }
                 }
