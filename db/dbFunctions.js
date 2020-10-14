@@ -158,7 +158,7 @@ class DB
                 {
                     type: "list",
                     name: "managerChoice",
-                    message: "Which manager do you want to search by?",
+                    message: "Who is the employee's manager?",
                     choices: managers
                 }
             ]
