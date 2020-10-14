@@ -5,6 +5,8 @@
 ## Description 
 This project will allow you to keep track of the employees at your workplace. You can add departments, roles, and employess, view departments, roles, and employees, update employee roles, view employees by manager, and view employees by department.
 
+![](./assets/Employee-Tracker.gif)
+
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
